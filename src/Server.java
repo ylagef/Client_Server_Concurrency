@@ -22,7 +22,7 @@ class Server extends Thread {
             System.out.println("Starting server...");
             ServerSocket server = new ServerSocket(4444);
 
-            int i = 0, j = 0;
+            int i = 0;
 
             System.out.println("Server hearing...");
             Work[] work = shareWork(division);
@@ -50,7 +50,6 @@ class Server extends Thread {
 
                 if (i == initialData[0].length - 1) {
                     i = 0;
-                    j++;
                 } else {
                     i++;
                 }
@@ -141,12 +140,12 @@ class Server extends Thread {
         int endR = endCell.getR();
         int endC = endCell.getC();
 
-        int[][] result = received.getResultMatrix();
+        int[][] result = received.getMatrix();
 
         int numRows = endR - startR;
 
         while (numRows >= 1) {
-            for (int c = startC; c < initialData.length; c++) {
+            for (int c = startC; c < initialData[0].length; c++) {
                 finalData[startR][c] = result[startR][c];
             }
             startR++;

@@ -8,11 +8,11 @@ class Work implements Serializable {
         this.end = end;
     }
 
-    public Cell getStart() {
+    Cell getStart() {
         return start;
     }
 
-    public Cell getEnd() {
+    Cell getEnd() {
         return end;
     }
 

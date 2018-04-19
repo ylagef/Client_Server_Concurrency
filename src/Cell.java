@@ -55,19 +55,19 @@ class Cell implements Serializable {
         return toret;
     }
 
-    public int getR() {
+    int getR() {
         return r;
     }
 
-    public void setR(int r) {
+    private void setR(int r) {
         this.r = r;
     }
 
-    public int getC() {
+    int getC() {
         return c;
     }
 
-    public void setC(int c) {
+    private void setC(int c) {
         this.c = c;
     }
 

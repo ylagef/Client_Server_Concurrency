@@ -2,16 +2,15 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
     private Work work;
-    private int[][] initialMatrix;
-    private int[][] resultMatrix;
+    private int[][] matrix;
     private boolean lastTime = false;
 
     Message(Work work, int[][] matrix) {
         this.work = work;
-        this.initialMatrix = matrix;
+        this.matrix = matrix;
     }
 
-    public Work getWork() {
+    Work getWork() {
         return work;
     }
 
@@ -19,20 +18,12 @@ public class Message implements Serializable {
         this.work = work;
     }
 
-    int[][] getInitialMatrix() {
-        return initialMatrix;
+    int[][] getMatrix() {
+        return matrix;
     }
 
-    public void setInitialMatrix(int[][] initialMatrix) {
-        this.initialMatrix = initialMatrix;
-    }
-
-    public int[][] getResultMatrix() {
-        return resultMatrix;
-    }
-
-    void setResultMatrix(int[][] resultMatrix) {
-        this.resultMatrix = resultMatrix;
+    void setMatrix(int[][] matrix) {
+        this.matrix = matrix;
     }
 
     boolean isLastTime() {
@@ -50,4 +41,5 @@ public class Message implements Serializable {
                 ", lastTime=" + lastTime +
                 '}';
     }
+
 }
