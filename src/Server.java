@@ -8,7 +8,7 @@ class Server extends Thread {
     private final CountDownLatch latch;
     private int[][] initialData;
     private double[][] finalData;
-    private int division = 4;
+    private int division = 5;
 
     Server(int[][] data, CountDownLatch latch) {
         this.initialData = data;

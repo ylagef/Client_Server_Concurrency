@@ -1,5 +1,6 @@
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -12,9 +13,10 @@ class Client extends Thread {
     }
 
     public void run() {
-        System.out.println("Starting client " + name + "...");
+        System.out.println("Starting client " + name + "...\n");
         boolean lastTime = false;
-        while (!lastTime) {
+        int exception = 0;
+        while (!lastTime && exception <= 3) {
             try {
                 InetAddress host = InetAddress.getLocalHost();
                 Socket socket = new Socket(host.getHostName(), 4444);
@@ -32,16 +34,19 @@ class Client extends Thread {
                 //Send message to server
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                 oos.writeObject(message);
-                System.out.println("C" + name + " sent:\t" + message.getWork().getStart() + " " + message.getWork().getEnd() + "\n");
+                System.out.println("C" + name + " sent:\t" + message.getWork().getStart() + " " + message.getWork().getEnd());
 
                 ois.close();
                 oos.close();
                 socket.close();
+            } catch (ConnectException e) {
+                System.out.println("Server not reachable.");
+                exception++;
             } catch (Exception e) {
                 System.out.println("Exception on Client. " + e);
             }
         }
-        System.out.println("Client " + name + " ended.\n");
+        System.out.println("\nClient " + name + " ended.\n");
     }
 
     private void processMatrix(Message message) {
