@@ -8,7 +8,7 @@ class Server extends Thread {
     private final CountDownLatch latch;
     private int[][] initialData;
     private double[][] finalData;
-    private int division = 5;
+    private int division = 10;
 
     Server(int[][] data, CountDownLatch latch) {
         this.initialData = data;
@@ -24,7 +24,7 @@ class Server extends Thread {
 
             int i = 0;
 
-            System.out.println("Server hearing...");
+            System.out.println("Server hearing...\n");
             Work[] work = shareWork(division);
             int w = 0;
             while (w < work.length) {
@@ -42,6 +42,7 @@ class Server extends Thread {
                 //Read message from client
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 Message messageReceived = (Message) ois.readObject();
+                System.out.println("Message received from client.");
                 fillFinalMatrix(messageReceived);
 
                 ois.close();
@@ -55,10 +56,10 @@ class Server extends Thread {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Exception on Server. " + e);
+            System.out.println("Exception on Server: " + e);
         }
 
-        System.out.println("Server ended");
+        System.out.println("\nServer ended.");
         latch.countDown(); //reduce count of CountDownLatch by 1
     }
 
@@ -128,7 +129,6 @@ class Server extends Thread {
         int j = 0;
         for (int[] i : times) {
             array[j++] = new Work(new Cell(i[0], i[1]), new Cell(i[2], i[3]));
-            System.out.println(i[0] + "." + i[1] + "|" + i[2] + "." + i[3]);
         }
 
         return array;

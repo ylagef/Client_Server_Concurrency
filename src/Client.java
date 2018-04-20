@@ -43,7 +43,7 @@ class Client extends Thread {
                 System.out.println("Server not reachable.");
                 exception++;
             } catch (Exception e) {
-                System.out.println("Exception on Client. " + e);
+                System.out.println("Exception on Client: " + e);
             }
         }
         System.out.println("\nClient " + name + " ended.\n");
