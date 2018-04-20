@@ -11,7 +11,7 @@ class MainServer {
 
         try {
             //Read initial image
-            File file_in = new File("lenna.png");
+            File file_in = new File("mario.png");
             BufferedImage img = ImageIO.read(file_in);
             final int width = img.getWidth();
             final int height = img.getHeight();

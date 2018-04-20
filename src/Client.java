@@ -5,7 +5,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 class Client extends Thread {
-    static MyMatrix matrix;
+    static Matrix matrix;
     private int name;
 
     Client(int name) {
@@ -26,7 +26,7 @@ class Client extends Thread {
                 Message message = (Message) ois.readObject();
                 System.out.println("C" + name + " received:\t" + message.toString());
                 lastTime = message.isLastTime();
-                matrix = new MyMatrix(message.getMatrix());
+                matrix = new Matrix(message.getMatrix());
 
                 //Processing message
                 processMatrix(message);
@@ -72,39 +72,5 @@ class Client extends Thread {
         }
 
         message.setMatrix(convertedMatrix);
-    }
-}
-
-class MyMatrix {
-    private int[][] matrix;
-
-    MyMatrix(int[][] matrix) {
-        this.matrix = matrix;
-    }
-
-    int getValue(int r, int c) {
-        return matrix[r][c];
-    }
-
-    int getRowsSize() {
-        return matrix.length;
-    }
-
-    int getColsSize() {
-        return matrix[0].length;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder toPrint = new StringBuilder();
-
-        for (int[] row : matrix) {
-            for (int cell : row) {
-                toPrint.append(cell).append("\t\t ");
-            }
-            toPrint.append("\n");
-        }
-
-        return toPrint.toString();
     }
 }

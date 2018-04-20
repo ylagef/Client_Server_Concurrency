@@ -68,36 +68,38 @@ class Server extends Thread {
 
     private Work[] shareWork(int size) {
         Work[] array = new Work[size];
+        int rowsSize = initialData.length;
+        int colsSize = initialData[0].length;
 
-        int cellsQuantity = initialData.length * initialData[0].length;
-        int cellsPerWork;
+        int cellsQuantity = rowsSize * colsSize;
+        int cellsPerThread;
         if (size >= cellsQuantity) {
-            //If more works than cells, just one work per cell.
-            cellsPerWork = 1;
+            //If more threads than cells, just one thread per cell.
+            cellsPerThread = 1;
             size = cellsQuantity;
         } else {
-            cellsPerWork = cellsQuantity / size;
+            cellsPerThread = cellsQuantity / size;
         }
 
-        //Assigning cells to works. By blocks.
+        //Assigning cells to threads. By blocks.
         int id = 0;
         int endR, endC, startR = 0, startC = 0;
         int[][] times = new int[size][4];
 
-        while (id != size - 1) { //While not last work.
-            if (startC + cellsPerWork >= initialData.length) { // If doesnt fit on actual row
-                int cellsForAssign = cellsPerWork - (initialData.length - startC);
-                int fullRows = cellsForAssign / initialData.length;
-                cellsForAssign = cellsForAssign - initialData.length * fullRows;
+        while (id != size - 1) { //While not last thread.
+            if (startC + cellsPerThread >= colsSize) { // If doesnt fit on actual row
+                int cellsForAssign = cellsPerThread - (colsSize - startC);
+                int fullRows = cellsForAssign / colsSize;
+                cellsForAssign = cellsForAssign - colsSize * fullRows;
                 if (cellsForAssign == 0) {
-                    endC = initialData.length - 1;
+                    endC = colsSize - 1;
                     endR = startR + fullRows;
                 } else {
                     endC = cellsForAssign - 1;
                     endR = startR + fullRows + 1;
                 }
             } else {
-                endC = startC + cellsPerWork - 1;
+                endC = startC + cellsPerThread - 1;
                 endR = startR;
             }
 
@@ -106,7 +108,7 @@ class Server extends Thread {
             times[id][2] = endR;
             times[id][3] = endC;
 
-            if (endC == initialData.length - 1) {
+            if (endC == colsSize - 1) {
                 startC = 0;
                 startR = endR + 1;
             } else {
@@ -117,15 +119,16 @@ class Server extends Thread {
             id++;
         }
 
-        // Last work goes until the end
+        // Last thread goes until the end
         times[id][0] = startR;
         times[id][1] = startC;
-        times[id][2] = initialData[0].length - 1;
-        times[id][3] = initialData.length - 1;
+        times[id][2] = rowsSize - 1;
+        times[id][3] = colsSize - 1;
 
         int j = 0;
         for (int[] i : times) {
             array[j++] = new Work(new Cell(i[0], i[1]), new Cell(i[2], i[3]));
+            System.out.println(i[0] + "." + i[1] + "|" + i[2] + "." + i[3]);
         }
 
         return array;
